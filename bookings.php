@@ -4,9 +4,6 @@ include 'components/connect.php';
 
 if (isset($_COOKIE['user_id'])) {
    $user_id = $_COOKIE['user_id'];
-} else {
-   setcookie('user_id', create_unique_id(), time() + 60 * 60 * 24 * 30, '/');
-   header('location:index.php');
 }
 
 if (isset($_POST['cancel'])) {
@@ -36,7 +33,7 @@ if (isset($_POST['cancel'])) {
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>bookings</title>
+   <title>my bookings</title>
 
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.css" />
 
@@ -116,31 +113,6 @@ if (isset($_POST['cancel'])) {
    </section>
 
    <!-- booking section ends -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
    <?php include 'components/footer.php'; ?>
 

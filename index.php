@@ -32,54 +32,6 @@ if (isset($_POST['check'])) {
 
 }
 
-if (isset($_POST['book'])) {
-
-   $booking_id = create_unique_id();
-   $name = $_POST['name'];
-   $name = filter_var($name, FILTER_SANITIZE_STRING);
-   $email = $_POST['email'];
-   $email = filter_var($email, FILTER_SANITIZE_STRING);
-   $number = $_POST['number'];
-   $number = filter_var($number, FILTER_SANITIZE_STRING);
-   $rooms = $_POST['rooms'];
-   $rooms = filter_var($rooms, FILTER_SANITIZE_STRING);
-   $check_in = $_POST['check_in'];
-   $check_in = filter_var($check_in, FILTER_SANITIZE_STRING);
-   $check_out = $_POST['check_out'];
-   $check_out = filter_var($check_out, FILTER_SANITIZE_STRING);
-   $adults = $_POST['adults'];
-   $adults = filter_var($adults, FILTER_SANITIZE_STRING);
-   $childs = $_POST['childs'];
-   $childs = filter_var($childs, FILTER_SANITIZE_STRING);
-
-   $total_rooms = 0;
-
-   $check_bookings = $conn->prepare("SELECT * FROM `bookings` WHERE check_in = ?");
-   $check_bookings->execute([$check_in]);
-
-   while ($fetch_bookings = $check_bookings->fetch(PDO::FETCH_ASSOC)) {
-      $total_rooms += $fetch_bookings['rooms'];
-   }
-
-   if ($total_rooms >= 30) {
-      $warning_msg[] = 'rooms are not available';
-   } else {
-
-      $verify_bookings = $conn->prepare("SELECT * FROM `bookings` WHERE user_id = ? AND name = ? AND email = ? AND number = ? AND rooms = ? AND check_in = ? AND check_out = ? AND adults = ? AND childs = ?");
-      $verify_bookings->execute([$user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $childs]);
-
-      if ($verify_bookings->rowCount() > 0) {
-         $warning_msg[] = 'room booked alredy!';
-      } else {
-         $book_room = $conn->prepare("INSERT INTO `bookings`(booking_id, user_id, name, email, number, rooms, check_in, check_out, adults, childs) VALUES(?,?,?,?,?,?,?,?,?,?)");
-         $book_room->execute([$booking_id, $user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $childs]);
-         $success_msg[] = 'room booked successfully!';
-      }
-
-   }
-
-}
-
 if (isset($_POST['send'])) {
 
    $id = create_unique_id();

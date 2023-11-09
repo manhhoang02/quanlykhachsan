@@ -1,7 +1,6 @@
 <?php
 include '../project/components/connect.php';
 
-
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = sha1($_POST['password']);
@@ -19,18 +18,47 @@ if (isset($_POST['login'])) {
 }
 
 if (isset($_POST['register'])) {
+    $id = create_unique_id();
     $firstName = $_POST['firstName'];
     $lastName = $_POST['lastName'];
-    $email = $_POST['re-email'];
-    $password = sha1($_POST['re-password']);
+    $re_email = $_POST['re-email'];
+    $re_password = sha1($_POST['re-password']);
+    $c_password = sha1($_POST['confirm-re-password']);
 
-    $insert_user = $conn->prepare("INSERT INTO `users` (first_name, last_name, email, password) VALUES (?, ?, ?, ?)");
-    $insert_user->execute([$firstName, $lastName, $email, $password]);
+    $select_user = $conn->prepare("SELECT EXISTS(
+        SELECT *
+        FROM users
+        WHERE email = ?
+      )");
+    $select_user->execute([$re_email]);
+    $check_email_existed = $select_user->fetch(PDO::FETCH_COLUMN);
 
-    if ($insert_user) {
-        header('location: index.php');
+    if ($re_password != $c_password) {
+        $warning_msg[] = 'Password not matched!';
+    } elseif ($check_email_existed) {
+        $warning_msg[] = 'Email has been used!';
     } else {
-        $warning_msg[] = 'Registration failed!';
+        $insert_user = $conn->prepare("INSERT INTO `users` (id, first_name, last_name, email, password) VALUES (?, ?, ?, ?, ?)");
+        $insert_user->execute([$id, $firstName, $lastName, $re_email, $re_password]);
+
+        if ($insert_user) {
+            // Đăng nhập khi đăng ký user thành công
+            $email = $re_email;
+            $password = $re_password;
+
+            $select_users = $conn->prepare("SELECT * FROM `users` WHERE email = ? AND password = ? LIMIT 1");
+            $select_users->execute([$email, $password]);
+            $row = $select_users->fetch(PDO::FETCH_ASSOC);
+
+            if ($select_users->rowCount() > 0) {
+                setcookie('user_id', $row['id'], time() + 60 * 60 * 24 * 30, '/');
+                header('location: index.php');
+            } else {
+                $warning_msg[] = 'Incorrect email or password!';
+            }
+        } else {
+            $warning_msg[] = 'Registration failed!';
+        }
     }
 }
 
@@ -73,7 +101,12 @@ if (isset($_POST['register'])) {
                     <input type="password" name="password" maxlength="50" required placeholder="enter your password"
                         class="input">
                 </div>
-                <input type="submit" value="login" name="login" class="btn">
+                <div class="row" style="align-items: center; justify-content: space-between;">
+                    <input type="submit" value="login" name="login" class="btn">
+                    <a href="admin/login.php" style="font-size: 1.5rem; text-decoration-line: underline;">
+                        <p>Login as admin</p>
+                    </a>
+                </div>
             </form>
         </div>
         <!-- login section ends -->
@@ -106,7 +139,7 @@ if (isset($_POST['register'])) {
                 </div>
                 <div class="box">
                     <p>confirm password <span>*</span></p>
-                    <input type="password" name="re-password" maxlength="50" required
+                    <input type="password" name="confirm-re-password" maxlength="50" required
                         placeholder="confirm your password" class="input">
                 </div>
                 <input type="submit" value="register" name="register" class="btn">
