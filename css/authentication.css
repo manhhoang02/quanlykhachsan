@@ -1,0 +1,107 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
+
+:root{
+    --main-color:#2B1103;
+    --sub-color:#DCC69C;
+    --white:#fff;
+    --border:.1rem solid rgba(220, 198, 156, .3);
+}
+
+*::selection{
+    background-color: var(--sub-color);
+    color: var(--main-color);
+ }
+ 
+ *::-webkit-scrollbar{
+    height: .5rem;
+    width: 1rem;
+ }
+ 
+ *::-webkit-scrollbar-track{
+    background-color: transparent;
+ }
+ 
+ *::-webkit-scrollbar-thumb{
+    background-color: var(--sub-color);
+    border-radius: 5rem;
+ }
+
+body {
+    background-color: var(--main-color);
+    display: block;
+    margin: 0 auto;
+}
+
+.authentication {
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-color: var(--border);
+    display: flex;
+    padding: 20px;
+    max-width: 120rem;
+    margin-top: 30px;
+    width: 100%;
+}
+
+.form-container {
+    width: 100%; 
+    padding: 20px;
+    border: var(--border);
+    margin: 0.2rem;
+    align-items: center;
+}
+
+.authentication .form-container h3{
+    background-color: var(--sub-color);
+    color: var(--main-color);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    border-radius: .5rem;
+    padding: 1.2rem;
+    text-align: center;
+    text-transform: capitalize;
+ }
+
+ .authentication form {
+    display: block;
+    align-items: center;
+    justify-content: center;
+ }
+
+ .authentication form .box{
+    flex: 1 1 40rem;
+    margin-bottom: 1rem;
+ }
+ 
+ .authentication form .box p{
+    font-size: 1.8rem;
+    color: var(--sub-color);
+ }
+ 
+ .authentication form .box .input{
+    padding: 1rem 0;
+    margin: 1rem 0;
+    border-bottom: var(--border);
+    background: var(--main-color);
+    color: var(--white);
+    font-size: 1.8rem;
+    width: 100%;
+ }
+ 
+ .authentication form .box .input::placeholder{
+    color: rgba(220, 198, 156, .6);
+ }
+ 
+ .authentication form .box input[type="date"]::-webkit-calendar-picker-indicator{
+    filter: invert(1);
+ }
+
+
+a {
+    color: var(--sub-color);
+    text-decoration: none;
+}
+
+.row {
+    display: flex;
+}
