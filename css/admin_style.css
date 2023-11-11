@@ -187,7 +187,7 @@ section{
 
 .grid .box-container{
    display: grid;
-   grid-template-columns: repeat(auto-fit, 35rem);
+   grid-template-columns: repeat(auto-fit, 40rem);
    align-items: flex-start;
    justify-content: center;
    gap: 1.5rem;
@@ -203,12 +203,12 @@ section{
 
 .grid .box-container .box p{
    line-height: 1.5;
-   padding: .5rem 0;
+   padding: .2rem 0;
    font-size: 1.8rem;
    color: var(--sub-color);
-   white-space: pre-line;
    text-overflow: ellipsis;
    overflow-x: hidden;
+   white-space: inherit; 
 }
 
 .grid .box-container .box p span{

@@ -103,7 +103,8 @@ if (isset($_POST['register'])) {
                 </div>
                 <div class="row" style="align-items: center; justify-content: space-between;">
                     <input type="submit" value="login" name="login" class="btn">
-                    <a href="admin/login.php" style="font-size: 1.5rem; text-decoration-line: underline;">
+                    <a href="admin/login.php" target="_blank"
+                        style="font-size: 1.5rem; text-decoration-line: underline;">
                         <p>Login as admin</p>
                     </a>
                 </div>

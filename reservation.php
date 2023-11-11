@@ -25,6 +25,8 @@ if (isset($_POST['book'])) {
     $adults = filter_var($adults, FILTER_SANITIZE_STRING);
     $childs = $_POST['childs'];
     $childs = filter_var($childs, FILTER_SANITIZE_STRING);
+    $room_type = $_POST['room_type'];
+    $room_type = filter_var($room_type, FILTER_SANITIZE_STRING);
 
     $total_rooms = 0;
 
@@ -39,14 +41,14 @@ if (isset($_POST['book'])) {
         $warning_msg[] = 'rooms are not available';
     } else {
 
-        $verify_bookings = $conn->prepare("SELECT * FROM `bookings` WHERE user_id = ? AND name = ? AND email = ? AND number = ? AND rooms = ? AND check_in = ? AND check_out = ? AND adults = ? AND childs = ?");
-        $verify_bookings->execute([$user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $childs]);
+        $verify_bookings = $conn->prepare("SELECT * FROM `bookings` WHERE user_id = ? AND name = ? AND email = ? AND number = ? AND rooms = ? AND check_in = ? AND check_out = ? AND adults = ? AND childs = ? AND room_type = ?");
+        $verify_bookings->execute([$user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $childs, $room_type]);
 
         if ($verify_bookings->rowCount() > 0) {
-            $warning_msg[] = 'room booked alredy!';
+            $warning_msg[] = 'room booked already!';
         } else {
-            $book_room = $conn->prepare("INSERT INTO `bookings`(booking_id, user_id, name, email, number, rooms, check_in, check_out, adults, childs) VALUES(?,?,?,?,?,?,?,?,?,?)");
-            $book_room->execute([$booking_id, $user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $childs]);
+            $book_room = $conn->prepare("INSERT INTO `bookings`(booking_id, user_id, name, email, number, rooms, check_in, check_out, adults, childs, room_type) VALUES(?,?,?,?,?,?,?,?,?,?,?)");
+            $book_room->execute([$booking_id, $user_id, $name, $email, $number, $rooms, $check_in, $check_out, $adults, $childs, $room_type]);
             $success_msg[] = 'room booked successfully!';
         }
 
@@ -66,6 +68,7 @@ if (isset($_POST['book'])) {
 
     <!-- custom css file link  -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/reservation.css">
 </head>
 
 <body>
@@ -73,7 +76,14 @@ if (isset($_POST['book'])) {
 
     <!-- reservation section starts  -->
 
+
+
     <section class="reservation" id="reservation">
+
+        <div style="text-align: center">
+            <img src="images/services1.png" alt="Image Preview" class="image-preview"
+                onclick="openFullscreen('images/services1.png')">
+        </div>
 
         <form action="" method="post">
             <h3>make a reservation</h3>
@@ -134,11 +144,32 @@ if (isset($_POST['book'])) {
                         <option value="6">6 childs</option>
                     </select>
                 </div>
+                <div class="box">
+                    <p> select room type <span>*</span></p>
+                    <select name="room_type" class="input" required>
+                        <option value="0" selected>single room</option>
+                        <option value="1">double room</option>
+                        <option value="2">twin room</option>
+                        <option value="3">family room</option>
+                        <option value="4">suite room</option>
+                        <option value="5">sea view room</option>
+                        <option value="6">garden view room</option>
+                        <option value="7">executive room</option>
+                        <option value="8">connecting room</option>
+                        <option value="9">high-floor room</option>
+                        <option value="10">special room</option>
+                    </select>
+                </div>
             </div>
             <input type="submit" value="book now" name="book" class="btn">
         </form>
 
     </section>
+
+    <div id="fullscreen-container">
+        <img src="" alt="Fullscreen Image" id="fullscreen-image">
+        <span class="close-btn" onclick="closeFullscreen()">&#x2716;</span>
+    </div>
 
     <?php include 'components/footer.php'; ?>
 
@@ -146,6 +177,31 @@ if (isset($_POST['book'])) {
     <!-- reservation section ends -->
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+    <script>
+        function openFullscreen(imagePath) {
+            var fullscreenContainer = document.getElementById('fullscreen-container');
+            var fullscreenImage = document.getElementById('fullscreen-image');
+
+            fullscreenImage.src = imagePath;
+            fullscreenContainer.style.display = 'flex';
+
+            document.addEventListener('keydown', closeOnEscape);
+        }
+
+        function closeFullscreen() {
+            var fullscreenContainer = document.getElementById('fullscreen-container');
+            fullscreenContainer.style.display = 'none';
+
+            document.removeEventListener('keydown', closeOnEscape);
+        }
+
+        function closeOnEscape(event) {
+            if (event.key === 'Escape') {
+                closeFullscreen();
+            }
+        }
+    </script>
 
     <?php include 'components/message.php'; ?>
 

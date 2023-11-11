@@ -1,0 +1,116 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400&display=swap');
+
+:root{
+   --main-color:#2B1103;
+   --sub-color:#DCC69C;
+   --white:#fff;
+   --border:.1rem solid rgba(220, 198, 156, .3);
+}
+
+.invoice h3 {
+    background-color: var(--sub-color);
+    color: var(--main-color);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    border-radius: .5rem;
+    padding: 1.2rem;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+.invoice form {
+    border: var(--border);
+    padding: 2rem;
+}
+
+.invoice form .flex {
+    display: flex;
+    /* text-align: center; */
+    justify-content: space-between;
+    /* align-items: center; */
+    gap: 1.5rem;
+}
+
+.invoice form h3 {
+    background-color: var(--sub-color);
+    color: var(--main-color);
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    border-radius: .5rem;
+    padding: 1.2rem;
+    text-align: center;
+    text-transform: capitalize;
+}
+
+
+.invoice form .flex .info .service_name {
+    font-size: 5rem;
+    color: var(--sub-color);
+}
+
+.invoice form .flex .info .text {
+    font-size: 2rem;
+    color: var(--sub-color);
+    margin: 1.5rem 0;
+}
+
+.invoice form .flex .info .info_booking {
+    margin: 2rem 0;
+    border: var(--border);
+    padding: 0 1rem;
+    flex: 1;
+}
+
+.invoice form .pay_btn_container {
+    margin-top: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn_pay {
+   display: inline-block;
+   cursor: pointer;
+   padding: 2rem 4rem;
+   border: var(--border);
+   font-size: 2rem;
+   color: var(--sub-color);
+   text-align: center;
+   text-transform: capitalize;
+   transition: .2s linear;
+   margin-top: 1rem;
+   background-color: var(--main-color);
+}
+
+.btn_pay:hover{
+    border-radius: 5rem;
+    background-color: var(--sub-color);
+    color: var(--main-color);
+ }
+
+.invoice form .total {
+    font-size: 3rem;
+    color: var(--sub-color);
+}
+
+.invoice form .flex .image {
+    max-width: 750px;
+}
+
+.box {
+    flex: 1 1 40rem;
+}
+
+.box p {
+    font-size: 1.8rem;
+    color: var(--sub-color);
+}
+
+.box .input{
+    padding: 1rem 0;
+    border-bottom: var(--border);
+    background: var(--main-color);
+    color: var(--white);
+    font-size: 1.8rem;
+    width: 100%;
+ }

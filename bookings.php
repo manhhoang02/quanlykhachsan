@@ -4,7 +4,11 @@ include 'components/connect.php';
 
 if (isset($_COOKIE['user_id'])) {
    $user_id = $_COOKIE['user_id'];
+} else {
+   $user_id = '';
+   header('location: authentication.php');
 }
+
 
 if (isset($_POST['cancel'])) {
 
@@ -60,8 +64,13 @@ if (isset($_POST['cancel'])) {
          <?php
          $select_bookings = $conn->prepare("SELECT * FROM `bookings` WHERE user_id = ?");
          $select_bookings->execute([$user_id]);
+
          if ($select_bookings->rowCount() > 0) {
             while ($fetch_booking = $select_bookings->fetch(PDO::FETCH_ASSOC)) {
+               $service_id = $fetch_booking['room_type'];
+               $select_services = $conn->prepare("SELECT * FROM `services` WHERE id = ? LIMIT 1");
+               $select_services->execute([$service_id]);
+               $service = $select_services->fetch(PDO::FETCH_ASSOC);
                ?>
                <div class="box">
                   <p>name : <span>
@@ -91,10 +100,30 @@ if (isset($_POST['cancel'])) {
                   <p>booking id : <span>
                         <?= $fetch_booking['booking_id']; ?>
                      </span></p>
+                  <p>room type : <span>
+                        <?= $service['name'] ?>
+                     </span></p>
+                  <p>status : <span>
+                        <?= $fetch_booking['status'] ?>
+                     </span></p>
                   <form action="" method="POST">
                      <input type="hidden" name="booking_id" value="<?= $fetch_booking['booking_id']; ?>">
-                     <input type="submit" value="cancel booking" name="cancel" class="btn"
-                        onclick="return confirm('cancel this booking?');">
+                     <?php switch ($fetch_booking['status']) {
+                        case 'pending': ?>
+                           <input type="submit" value="cancel booking" name="cancel" class="btn"
+                              onclick="return confirm('cancel this booking?');">
+                           <?php break;
+
+                        case 'success': ?>
+                           <a href="invoice.php?booking_id=<?= $fetch_booking['booking_id']; ?>" class="btn"
+                              onclick="return confirm('pay this booking?');">pay booking</a>
+                           <?php break;
+
+                        default ?>
+                           <a href="invoice.php?booking_id=<?= $fetch_booking['booking_id']; ?>" class="btn">view invoice</a>
+                           <?php break;
+                     } ?>
+
                   </form>
                </div>
                <?php

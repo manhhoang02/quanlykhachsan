@@ -8,7 +8,9 @@
          <a href="tel:1234567890"><i class="fas fa-phone"></i> +123-456-7890</a>
          <a href="tel:1112223333"><i class="fas fa-phone"></i> +111-222-3333</a>
          <a href="mailto:nhom07@gmail.com"><i class="fas fa-envelope"></i> nhom07@gmail.com</a>
-         <a href="#"><i class="fas fa-map-marker-alt"></i> Số 3 Cầu Giấy, Đống Đa, Hà Nội</a>
+         <a href="#">
+            <i class="fas fa-map-marker-alt"></i> 3 Đ. Cầu Giấy, Láng Thượng, Đống Đa, Hà Nội, Việt Nam
+         </a>
       </div>
 
       <div class="box">
