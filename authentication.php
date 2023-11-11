@@ -1,5 +1,5 @@
 <?php
-include '../project/components/connect.php';
+include 'components/connect.php';
 
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
@@ -152,7 +152,7 @@ if (isset($_POST['register'])) {
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
 
-    <?php include '../project/components/message.php'; ?>
+    <?php include 'components/message.php'; ?>
 
 </body>
 

@@ -8,7 +8,7 @@
       </a>
       <?php
 
-      require_once '../project/components/connect.php';
+      require_once 'components/connect.php';
       function logout()
       {
          if (isset($_COOKIE['user_id'])) {
