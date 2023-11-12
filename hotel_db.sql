@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 11, 2023 lúc 10:10 AM
+-- Thời gian đã tạo: Th10 12, 2023 lúc 01:59 PM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -115,6 +115,20 @@ INSERT INTO `payments` (`id`, `user_id`, `booking_id`, `amount`, `payment_date`,
 -- --------------------------------------------------------
 
 --
+-- Cấu trúc bảng cho bảng `reviews`
+--
+
+CREATE TABLE `reviews` (
+  `id` varchar(20) NOT NULL,
+  `user_id` varchar(20) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  `review` varchar(1000) NOT NULL,
+  `image_url` varchar(50) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Cấu trúc bảng cho bảng `services`
 --
 
@@ -189,6 +203,12 @@ ALTER TABLE `messages`
 -- Chỉ mục cho bảng `payments`
 --
 ALTER TABLE `payments`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Chỉ mục cho bảng `reviews`
+--
+ALTER TABLE `reviews`
   ADD PRIMARY KEY (`id`);
 
 --
