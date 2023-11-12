@@ -57,6 +57,29 @@ if (isset($_POST['send'])) {
 
 }
 
+if (isset($_POST['submit_review'])) {
+
+   $id = create_unique_id();
+   $name = $_POST['name'];
+   $name = filter_var($name, FILTER_SANITIZE_STRING);
+   $review = $_POST['review'];
+   $review = filter_var($review, FILTER_SANITIZE_STRING);
+   $image_url = "pic-" . rand(1, 6) . ".png";
+   $image_url = filter_var($image_url, FILTER_SANITIZE_STRING);
+
+   $insert_review = $conn->prepare("INSERT INTO `reviews`(id, user_id, name, review, image_url) VALUES(?,?,?,?,?)");
+   $insert_review->execute([$id, $user_id, $name, $review, $image_url]);
+
+   if ($insert_review->rowCount() > 0) {
+      header('location: index.php#reviews');
+      $success_msg[] = 'review send successfully!';
+   } else {
+      $warning_msg[] = 'review failed!';
+   }
+
+
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -360,41 +383,38 @@ if (isset($_POST['send'])) {
 
    <!-- reviews section starts  -->
 
-   <section class="reviews" id="reviews">
+   <section class="reviews" id="reviews" style="text-align: center;">
+
+      <button class="btn" id="openModalBtn">Make a review</button>
 
       <div class="swiper reviews-slider">
 
          <div class="swiper-wrapper">
-            <div class="swiper-slide box">
-               <img src="images/pic-1.png" alt="">
-               <h3>Mạnh - Bắc Ninh</h3>
-               <p>Tôi đã có một kỳ nghỉ tuyệt vời ở khách sạn này. Nhân viên thân thiện và thực đơn đa dạng làm cho tôi
-                  cảm thấy hài lòng.</p>
-            </div>
-            <div class="swiper-slide box">
-               <img src="images/pic-2.png" alt="">
-               <h3>Mạnh - Hà Nội 2</h3>
-               <p>Không gian phòng ốc thoải mái và rất sạch sẽ. Tôi rất thích bãi biển riêng và dịch vụ thú vị tại hồ
-                  bơi.</p>
-            </div>
-            <div class="swiper-slide box">
-               <img src="images/pic-3.png" alt="">
-               <h3>Dũng - Lào Ninh</h3>
-               <p>Khách sạn này thực sự đáng giá. Dịch vụ khách hàng xuất sắc và các tiện nghi vượt qua sự kỳ vọng của
-                  tôi.</p>
-            </div>
-            <div class="swiper-slide box">
-               <img src="images/pic-4.png" alt="">
-               <h3>Duy - Bố Sang</h3>
-               <p>Đây là lần thứ hai tôi đã đến khách sạn này và tôi không bao giờ thất vọng. Mọi thứ đều hoàn hảo, từ
-                  thực đơn tới cảnh quan biển tuyệt đẹp.</p>
-            </div>
-            <div class="swiper-slide box">
-               <img src="images/pic-5.png" alt="">
-               <h3>Tín - Thái Bình</h3>
-               <p>Tôi thật sự ấn tượng với sự trang trí và không gian của khách sạn. Mọi thứ đều đẹp đẽ và sang trọng.
-                  Tôi sẽ khuyên bạn bè của tôi đến đây.</p>
-            </div>
+            <?php
+            $select_reiviews = $conn->prepare("SELECT * FROM `reviews`");
+            $select_reiviews->execute();
+
+            if ($select_reiviews->rowCount() > 0) {
+               while ($fetch_review = $select_reiviews->fetch(PDO::FETCH_ASSOC)) { ?>
+                  <div class="swiper-slide box">
+                     <img src="images/<?= $fetch_review['image_url'] ?>" alt="">
+                     <h3>
+                        <?= $fetch_review['name'] ?>
+                     </h3>
+                     <p>
+                        <?= $fetch_review['review'] ?>
+                     </p>
+                  </div>
+                  <?php
+               }
+            } else {
+               ?>
+               <div class="box" style="text-align: center;">
+                  <p style="text-transform:capitalize;">no reviews found!</p>
+               </div>
+               <?php
+            }
+            ?>
          </div>
 
          <div class="swiper-pagination"></div>
@@ -402,7 +422,40 @@ if (isset($_POST['send'])) {
 
    </section>
 
+   <!-- modal review -->
+   <div class="modal" id="reviewModal">
+      <div class="modal-content">
+         <span class="close" onclick="closeModal()">&#x2716;</span>
+         <form method="post" action="">
+            <div class="box">
+               <p>your name <span>*</span></p>
+               <input type="text" name="name" id="name" placeholder="your name" required class="input">
+            </div>
+            <div class="box">
+               <p>your review <span>*</span></p>
+               <textarea name="review" id="review" placeholder="write your review" required class="input"></textarea>
+            </div>
+
+            <input type="submit" name="submit_review" value="submit" class="btn">
+         </form>
+      </div>
+   </div>
+
    <!-- reviews section ends  -->
+
+   <script>
+      var modal = document.getElementById('reviewModal');
+
+      var btn = document.getElementById('openModalBtn');
+
+      btn.onclick = function () {
+         modal.style.display = 'flex';
+      }
+
+      function closeModal() {
+         modal.style.display = 'none';
+      }
+   </script>
 
 
    <?php include 'components/footer.php'; ?>
