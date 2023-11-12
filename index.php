@@ -409,7 +409,7 @@ if (isset($_POST['submit_review'])) {
                }
             } else {
                ?>
-               <div class="box" style="text-align: center;">
+               <div class="box" style="text-align: center; flex: 1;">
                   <p style="text-transform:capitalize;">no reviews found!</p>
                </div>
                <?php
