@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Máy chủ: 127.0.0.1
--- Thời gian đã tạo: Th10 12, 2023 lúc 01:59 PM
+-- Thời gian đã tạo: Th10 13, 2023 lúc 07:10 AM
 -- Phiên bản máy phục vụ: 10.4.28-MariaDB
 -- Phiên bản PHP: 8.0.28
 
@@ -38,8 +38,8 @@ CREATE TABLE `admins` (
 --
 
 INSERT INTO `admins` (`id`, `name`, `password`) VALUES
-('djL8xeXemF2WCz55W9vh', 'adminmanh', '356a192b7913b04c54574d18c28d46e6395428ab'),
-('EQYJaB96HcaTtxag6J7d', 'admin', '6216f8a75fd5bb3d5f22b6f9958cdede3fc086c2');
+('EQYJaB96HcaTtxag6J7d', 'admin', '6216f8a75fd5bb3d5f22b6f9958cdede3fc086c2'),
+('FnOiHeIe9iNiaY45qTf5', 'admin1', '356a192b7913b04c54574d18c28d46e6395428ab');
 
 -- --------------------------------------------------------
 
@@ -67,7 +67,8 @@ CREATE TABLE `bookings` (
 --
 
 INSERT INTO `bookings` (`user_id`, `booking_id`, `name`, `email`, `number`, `rooms`, `check_in`, `check_out`, `adults`, `childs`, `room_type`, `status`) VALUES
-('B0YqfmIMKMfbZExNTvcn', 'BH6Pil9bahUT49KjCYsj', 'Hoang Dinh Manh', 'manhkuma@gmail.com', '1234567890', 5, '2023-11-17', '2023-11-18', 4, 3, 10, 'paid');
+('B0YqfmIMKMfbZExNTvcn', 'BH6Pil9bahUT49KjCYsj', 'Hoang Dinh Manh', 'manhkuma@gmail.com', '1234567890', 5, '2023-11-17', '2023-11-18', 4, 3, 10, 'paid'),
+('B0YqfmIMKMfbZExNTvcn', 'Dfofe5Y31RNDpRVtdR7a', 'Hoang Dinh Manh', 'manhkuma@gmail.com', '1234567890', 1, '2023-11-14', '2023-11-15', 1, 0, 0, 'paid');
 
 -- --------------------------------------------------------
 
@@ -88,6 +89,7 @@ CREATE TABLE `messages` (
 --
 
 INSERT INTO `messages` (`id`, `name`, `email`, `number`, `message`) VALUES
+('gdxGTn0zQ5NRYL8ZRDhx', 'Hoang Dinh Manh', 'manhkuma@gmail.com', '1231231231', 'ạdhjasdhajksdhaksdh'),
 ('p9lbpqvRY1z1aFWOK295', 'Hoang Dinh Manh', 'manhkuma@gmail.com', '231231231', 'ádklasdkasda');
 
 -- --------------------------------------------------------
@@ -110,7 +112,8 @@ CREATE TABLE `payments` (
 --
 
 INSERT INTO `payments` (`id`, `user_id`, `booking_id`, `amount`, `payment_date`, `payment_method`) VALUES
-('bPd63z0ea2DADYJwzjvh', 'B0YqfmIMKMfbZExNTvcn', 'BH6Pil9bahUT49KjCYsj', 1775.00, '2023-11-11', 'atm-card');
+('bPd63z0ea2DADYJwzjvh', 'B0YqfmIMKMfbZExNTvcn', 'BH6Pil9bahUT49KjCYsj', 1775.00, '2023-11-11', 'atm-card'),
+('mvxIKI97b4WUubAmbte0', 'B0YqfmIMKMfbZExNTvcn', 'Dfofe5Y31RNDpRVtdR7a', 130.00, '2023-11-12', 'cash');
 
 -- --------------------------------------------------------
 
@@ -125,6 +128,15 @@ CREATE TABLE `reviews` (
   `review` varchar(1000) NOT NULL,
   `image_url` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Đang đổ dữ liệu cho bảng `reviews`
+--
+
+INSERT INTO `reviews` (`id`, `user_id`, `name`, `review`, `image_url`) VALUES
+('acGitgznXO0pypAD1uU1', 'B0YqfmIMKMfbZExNTvcn', 'Tín - Thái Bình', 'Tôi thật sự ấn tượng với sự trang trí và không gian của khách sạn. Mọi thứ đều đẹp đẽ và sang trọng.\r\n                  Tôi sẽ khuyên bạn bè của tôi đến đây.', 'pic-6.png'),
+('O0Wu02b24ZtIH4L7qUBk', 'B0YqfmIMKMfbZExNTvcn', 'Mạnh - Hà Nội 2', 'Không gian phòng ốc thoải mái và rất sạch sẽ. Tôi rất thích bãi biển riêng và dịch vụ thú vị tại hồ\r\n                  bơi.', 'pic-1.png'),
+('z5sNWjc1OGO0ckSt9X8h', 'B0YqfmIMKMfbZExNTvcn', 'Mạnh - Bắc Ninh', 'Tôi đã có một kỳ nghỉ tuyệt vời ở khách sạn này. Nhân viên thân thiện và thực đơn đa dạng làm cho tôi\r\n                  cảm thấy hài lòng.', 'pic-2.png');
 
 -- --------------------------------------------------------
 
@@ -175,7 +187,7 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `email`, `first_name`, `last_name`, `password`) VALUES
-('B0YqfmIMKMfbZExNTvcn', 'manh@gmail.com', 'Hoang', 'Manh', '356a192b7913b04c54574d18c28d46e6395428ab');
+('vdppRtdA1byafMbeJQpz', 'manhkuma@gmail.com', 'Hoang Dinh', 'Manh', '356a192b7913b04c54574d18c28d46e6395428ab');
 
 --
 -- Chỉ mục cho các bảng đã đổ
