@@ -385,17 +385,19 @@ if (isset($_POST['submit_review'])) {
 
    <section class="reviews" id="reviews" style="text-align: center;">
 
-      <button class="btn" id="openModalBtn">Make a review</button>
+      <button class="btn" id="openModalReview">Make a review</button>
 
       <div class="swiper reviews-slider">
 
          <div class="swiper-wrapper">
             <?php
-            $select_reiviews = $conn->prepare("SELECT * FROM `reviews`");
-            $select_reiviews->execute();
+            $select_reviews = $conn->prepare("SELECT * FROM `reviews`");
+            $select_reviews->execute();
 
-            if ($select_reiviews->rowCount() > 0) {
-               while ($fetch_review = $select_reiviews->fetch(PDO::FETCH_ASSOC)) { ?>
+            $num_reviews = $select_reviews->rowCount();
+
+            if ($num_reviews > 0) {
+               while ($fetch_review = $select_reviews->fetch(PDO::FETCH_ASSOC)) { ?>
                   <div class="swiper-slide box">
                      <img src="images/<?= $fetch_review['image_url'] ?>" alt="">
                      <h3>
@@ -405,56 +407,65 @@ if (isset($_POST['submit_review'])) {
                         <?= $fetch_review['review'] ?>
                      </p>
                   </div>
-                  <?php
-               }
+               <?php }
             } else {
                ?>
                <div class="box" style="text-align: center; flex: 1;">
                   <p style="text-transform:capitalize;">no reviews found!</p>
                </div>
-               <?php
-            }
-            ?>
+            <?php } ?>
+
          </div>
 
-         <div class="swiper-pagination"></div>
+         <?php if ($num_reviews > 1) { ?>
+            <div class="swiper-pagination"></div>
+         <?php } ?>
+
       </div>
 
    </section>
 
-   <!-- modal review -->
-   <div class="modal" id="reviewModal">
-      <div class="modal-content">
-         <span class="close" onclick="closeModal()">&#x2716;</span>
-         <form method="post" action="">
-            <div class="box">
-               <p>your name <span>*</span></p>
-               <input type="text" name="name" id="name" placeholder="your name" required class="input">
-            </div>
-            <div class="box">
-               <p>your review <span>*</span></p>
-               <textarea name="review" id="review" placeholder="write your review" required class="input"></textarea>
-            </div>
 
-            <input type="submit" name="submit_review" value="submit" class="btn">
-         </form>
-      </div>
-   </div>
+   <!-- modal review -->
+
 
    <!-- reviews section ends  -->
 
+   <?php include 'components/modal_edit.php'; ?>
+   <?php include 'components/modal_review.php'; ?>
+
    <script>
-      var modal = document.getElementById('reviewModal');
 
-      var btn = document.getElementById('openModalBtn');
+      document.addEventListener("DOMContentLoaded", function () {
+         var modalEdit = document.getElementById('modalEditProfile');
+         var openEdit = document.getElementById("openEdit");
+         var closeEdit = document.getElementById('close');
 
-      btn.onclick = function () {
-         modal.style.display = 'flex';
-      }
+         openEdit.onclick = function () {
+            modalEdit.style.display = 'flex';
+         }
 
-      function closeModal() {
-         modal.style.display = 'none';
-      }
+         closeEdit.onclick = function () {
+            modalEdit.style.display = 'none';
+         }
+
+      });
+
+      document.addEventListener("DOMContentLoaded", function () {
+         var modalReview = document.getElementById('modalReview');
+         var openReview = document.getElementById('openModalReview');
+         var closeReview = document.getElementById('closeReview');
+
+         openReview.onclick = function () {
+            modalReview.style.display = 'flex';
+         }
+
+         closeReview.onclick = function () {
+            modalReview.style.display = 'none';
+         }
+
+      });
+
    </script>
 
 

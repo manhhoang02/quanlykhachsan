@@ -3,7 +3,7 @@
 <section class="header">
 
    <div class="flex">
-      <a href="index.php#home" class="logo">
+      <a href="index.php" class="logo">
          <img src="images/logormbg.png">
       </a>
       <?php
@@ -31,9 +31,10 @@
       <div class="flex">
          <?php if (isset($fetch_user) && $fetch_user) { ?>
             <div class="flex">
-               <h1 class="logo" style="text-decoration-line: underline;">
+               <a class="logo" id="openEdit"
+                  style="background-color: transparent; cursor: pointer; text-decoration-line: underline;">
                   <?= $fetch_user['first_name'] . ' ' . $fetch_user['last_name']; ?>
-               </h1>
+               </a>
                <form action="" method="POST">
                   <input type="hidden" name="user_id" value="<?= $fetch_user['id']; ?>">
                   <input type="submit" value="Logout" onclick="return confirm('Logout this user?');" name="logout"
@@ -45,7 +46,6 @@
             <a href="authentication.php" class="btn">Register</a>
          <?php } ?>
       </div>
-
 
       <div id="menu-btn" class="fas fa-bars"></div>
    </div>
@@ -68,7 +68,6 @@
          <a href="authentication.php" onclick="return confirm('Login to view my bookings.');">my bookings</a>
       <?php endif; ?>
    </nav>
-
 
 </section>
 
